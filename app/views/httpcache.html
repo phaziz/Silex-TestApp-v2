@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{{ HTML_TITLE }}</title>
+    </head>
+    <body>
+        <p>
+            NAVIGATION: <a href="{{ app.url_generator.generate('homepage') }}">HOMEPAGE</a> | <a href="{{ app.url_generator.generate('monolog-test') }}">MONOLOG TEST</a> | <a href="{{ app.url_generator.generate('httpcache-test') }}">HTTP CACHE TEST</a>
+        </p>
+        <br><br>
+        <p>
+            Hello Christian, HTTP CACHE is working...!<br><br>
+        </p>
+    </body>
+</html>
