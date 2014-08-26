@@ -9,7 +9,12 @@
         </p>
         <br><br>
         <p>
-            Hello Christian, HTTP CACHE is working...!<br><br>
+            Hello Christian, DOCTRINE working?
         </p>
+        <ul>
+            {% for TEST_DATA in TEST_DATA %}
+                <li>{{ TEST_DATA.name|e }} : {{ TEST_DATA.val|e }}</li>
+            {% endfor %}
+        </ul>
     </body>
 </html>

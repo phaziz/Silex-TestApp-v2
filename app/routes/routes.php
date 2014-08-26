@@ -19,6 +19,22 @@
 		}
 	) -> bind('homepage');
 
+	$app -> get('/test/doctrine', function () use ($app)
+		{
+			$SQL  = "SELECT * FROM doctrinetest;";
+			$TEST_DATA = $app['db'] -> prepare($SQL);
+			$TEST_DATA -> execute();
+
+			return $app['twig'] -> render('doctrine_test.html',
+				array
+				(
+			    	'TEST_DATA' => $TEST_DATA,
+			    	'HTML_TITLE' => 'Doctrine is working...'
+				)
+			);
+		}
+	) -> bind('doctrine-test');
+
 	$app -> get('/test/monolog', function () use ($app)
 		{
 			$app['monolog'] -> addDebug('Testing the Monolog logging.');

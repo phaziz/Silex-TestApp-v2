@@ -9,12 +9,26 @@
 	 * CREATING NEW SILEX INSTANCE
 	 * */
 	$app = new Silex\Application();
-	$app['debug'] = false;
+	$app['debug'] = true;
 
 	/*
 	 * REGISTERING ADDITIONAL MODULES START
 	 * */
 	$app -> register(new Silex\Provider\UrlGeneratorServiceProvider());
+	$app -> register(new Silex\Provider\DoctrineServiceProvider(),
+        array
+            (
+                'db.options' => array
+                (
+                    'driver'    => 'pdo_mysql',
+                    'host'      => 'localhost',
+                    'dbname'    => 'doctrine-test',
+                    'user'      => 'root',
+                    'password'  => 'root',
+                    'charset'   => 'utf8'
+                )
+            )
+	    );
 	$app -> register(new Silex\Provider\MonologServiceProvider(),
 		array
 		(
