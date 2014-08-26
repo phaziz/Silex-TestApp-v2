@@ -3,17 +3,24 @@
     <head>
         <title>{{ HTML_TITLE }}</title>
     </head>
-    <body>
-        <p>
-            NAVIGATION: <a href="{{ app.url_generator.generate('homepage') }}">HOMEPAGE</a> | <a href="{{ app.url_generator.generate('monolog-test') }}">MONOLOG TEST</a> | <a href="{{ app.url_generator.generate('httpcache-test') }}">HTTP CACHE TEST</a> | <a href="{{ app.url_generator.generate('doctrine-test') }}">DOCTRINE TEST</a>
-        </p>
+    <body> 
+        <ul>
+            <li><a href="{{ _BASE_URL }}">HOMEPAGE</a></li>
+            <li><a href="{{ _BASE_URL }}test/monolog">MONOLOG TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/httpcache">HTTP CACHE TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/doctrine">DOCTRINE TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/swiftmailer">SWIFTMAILER TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/redirect-1">REDIRECT TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/forwarding">FORWARD TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/forms">FORMS TEST</a></li>
+        </ul>
         <br><br>
         <p>
-            Hello Christian, DOCTRINE working?
+            DOCTRINE working?
         </p>
         <ul>
             {% for TEST_DATA in TEST_DATA %}
-                <li>{{ TEST_DATA.name|e }} : {{ TEST_DATA.val|e }}</li>
+                <li>{{ TEST_DATA.id|e }} : {{ TEST_DATA.name|e }} : {{ TEST_DATA.val|e }}</li>
             {% endfor %}
         </ul>
     </body>

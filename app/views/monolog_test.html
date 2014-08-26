@@ -3,13 +3,20 @@
     <head>
         <title>{{ HTML_TITLE }}</title>
     </head>
-    <body>
-        <p>
-            NAVIGATION: <a href="{{ app.url_generator.generate('homepage') }}">HOMEPAGE</a> | <a href="{{ app.url_generator.generate('monolog-test') }}">MONOLOG TEST</a> | <a href="{{ app.url_generator.generate('httpcache-test') }}">HTTP CACHE TEST</a> | <a href="{{ app.url_generator.generate('doctrine-test') }}">DOCTRINE TEST</a>
-        </p>
+    <body> 
+        <ul>
+            <li><a href="{{ _BASE_URL }}">HOMEPAGE</a></li>
+            <li><a href="{{ _BASE_URL }}test/monolog">MONOLOG TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/httpcache">HTTP CACHE TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/doctrine">DOCTRINE TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/swiftmailer">SWIFTMAILER TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/redirect-1">REDIRECT TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/forwarding">FORWARD TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/forms">FORMS TEST</a></li>
+        </ul>
         <br><br>
         <p>
-            Hello Christian, MonologLogging working?
+            MonologLogging working?
         </p>
         <p>
             Monolog test result's: {{ MONOLOG_TESTING_RESULT|e }}

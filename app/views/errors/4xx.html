@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>{{ HTML_TITLE }}</title>
+        <title>{{ CODE }} - Error</title>
     </head>
     <body> 
         <ul>
@@ -16,7 +16,9 @@
         </ul>
         <br><br>
         <p>
-            SILEX is working...!
+            {% block content %}
+                {{ CODE }} - An error occurred on the client.
+            {% endblock %}
         </p>
     </body>
 </html>

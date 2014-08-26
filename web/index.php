@@ -9,12 +9,37 @@
 	 * CREATING NEW SILEX INSTANCE
 	 * */
 	$app = new Silex\Application();
-	$app['debug'] = true;
+
+	/*
+	 * CONFIGURING THE APP
+	 * */
+	$app['debug'] = false;
+	$app['base_url'] = 'http://localhost:8888/localmamp/silex/web/';
+	$app['token_salt'] = ':)';
 
 	/*
 	 * REGISTERING ADDITIONAL MODULES START
 	 * */
 	$app -> register(new Silex\Provider\UrlGeneratorServiceProvider());
+
+	$app -> register(new Silex\Provider\FormServiceProvider(),
+		array
+		(
+	    	'form.registry' => $app -> share(function() use ($app)
+	    		{
+	        		$resolvedTypeFactory = new Symfony\Component\Form\ResolvedFormTypeFactory();
+	        		return new Symfony\Component\Form\FormRegistry($app['form.extensions'], $resolvedTypeFactory);
+	    		}
+			),
+	    	'form.factory' => $app->share(function() use ($app)
+	    		{
+	        		$resolvedTypeFactory = new Symfony\Component\Form\ResolvedFormTypeFactory();
+	        		return new Symfony\Component\Form\FormFactory($app['form.registry'], $resolvedTypeFactory);
+	    		}
+			)
+		)
+	);
+
 	$app -> register(new Silex\Provider\DoctrineServiceProvider(),
         array
             (
@@ -29,12 +54,25 @@
                 )
             )
 	    );
+
+    $app -> register(new Silex\Provider\SwiftmailerServiceProvider());
+
+    $app['swiftmailer.options'] = array(
+        'host'       => 'smtp.gmail.com',
+        'port'       => 465,
+        'username'   => 'XXXXX@gmail.com',
+        'password'   => 'XXXXX',
+        'encryption' => 'ssl',
+        'auth_mode'  => 'login'
+    );
+
 	$app -> register(new Silex\Provider\MonologServiceProvider(),
 		array
 		(
 	    	'monolog.logfile' => __DIR__ . '/../app/logfiles/' . date('Ymd') . '.txt'
 		)
 	);
+
 	$app -> register(new Silex\Provider\HttpCacheServiceProvider(),
 		array
 		(
@@ -42,6 +80,7 @@
 		    'http_cache.esi' => null,
 		)
 	);
+
 	$app -> register(new Silex\Provider\TwigServiceProvider(),
 		array
 		(
@@ -56,30 +95,6 @@
 	 * INCLUDING APPLICATION ROUTES
 	 * */
 	require_once __DIR__ . '/../app/routes/routes.php';
-
-	/*
-	 * ERROR HANDLING START
-	 * */
-	$app -> error(function (\Exception $e, $code) use ($app)
-		{
-			if ($app['debug'])
-			{
-		    	return;
-			}
-
-			switch ($code)
-			{
-		    	case 404:
-		        	return '404 not found';
-		    		break;
-				default:
-		    		return 'ERROR: ' . $code;
-		    }
-		}
-	);
-	/*
-	 * ERROR HANDLING END
-	 * */
 
 	/*
 	 * RUNNING THE APP
