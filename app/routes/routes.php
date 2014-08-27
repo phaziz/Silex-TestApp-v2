@@ -134,7 +134,7 @@
 
 	$app -> get('/test/doctrine', function () use ($app)
 		{
-			$SQL  = "SELECT * FROM doctrinetest;";
+			$SQL  = "SELECT * FROM doctrinetest ORDER BY id ASC;";
 			$TEST_DATA = $app['db'] -> prepare($SQL);
 			$TEST_DATA -> execute();
 
@@ -148,6 +148,94 @@
 			);
 		}
 	) -> bind('doctrine-test');
+
+
+
+	$app -> get('/test/doctrine/update/{ID}', function ($ID) use ($app)
+		{
+			$FORM_ACTION = $app['base_url'] . 'test/doctrine/update/' . $ID;
+			$FORM_METHOD = 'post';
+			$FORM_ENCTYPE = 'application/x-www-form-urlencoded';
+			$FORM_CSRF_TOKEN = crypt($app['token_salt']);
+			$FORM_CSRF_TOKEN = str_replace('/','',$FORM_CSRF_TOKEN);
+
+			$SQL = "SELECT * FROM doctrinetest WHERE id = ? LIMIT 1;";
+			$TEST_DATA = $app['db'] -> prepare($SQL);
+			$TEST_DATA -> bindValue(1, $ID);
+			$TEST_DATA -> execute();
+			$TEST_DATA = $TEST_DATA -> fetch();
+
+			$UPDATE_DATA_ID = $TEST_DATA["id"];
+			$UPDATE_DATA_NAME = $TEST_DATA['name'];
+			$UPDATE_DATA_VAL = $TEST_DATA['val'];
+
+			return $app['twig'] -> render('doctrine_update.html',
+				array
+				(
+					'_BASE_URL' => $app['base_url'],
+			    	'HTML_TITLE' => 'Doctrine-Update is working...',
+			    	'UPDATE_DATA_ID' => $UPDATE_DATA_ID,
+			    	'UPDATE_DATA_NAME' => $UPDATE_DATA_NAME,
+			    	'UPDATE_DATA_VAL' => $UPDATE_DATA_VAL,
+			    	'FORM_CSRF_TOKEN' => $FORM_CSRF_TOKEN,
+			    	'FORM_ACTION' => $FORM_ACTION . '/' . $FORM_CSRF_TOKEN,
+			    	'FORM_METHOD' => $FORM_METHOD,
+			    	'FORM_ENCTYPE' => $FORM_ENCTYPE
+				)
+			);
+		}
+	) -> convert('ID', function ($ID) { return (int) $ID; });
+
+
+
+	$app -> post('/test/doctrine/update/{ID}/{csrf_token}', function ($ID, $csrf_token ,Request $request) use ($app)
+		{
+			$_FORM_ID = $app -> escape($request -> get('id'));
+			$_FORM_NAME = $app -> escape($request -> get('name'));
+			$_FORM_VAL = $app -> escape($request -> get('val'));
+
+			if($csrf_token == $app -> escape($request -> get('csrf_token')) && $_FORM_ID != '' && $_FORM_NAME != '' && $_FORM_VAL != '')
+			{
+				$sql = "UPDATE doctrinetest SET name = ?, val = ? WHERE id = ? LIMIT 1;";
+				$TEST_DATA = $app['db'] -> prepare($sql);
+				$TEST_DATA -> bindValue(1, $_FORM_NAME);
+				$TEST_DATA -> bindValue(2, $_FORM_VAL);
+				$TEST_DATA -> bindValue(3, $_FORM_ID);
+				$TEST_DATA -> execute();
+
+			    $subRequest = Request::create('/test/doctrine', 'GET');
+			    return $app -> handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+			}
+			else
+			{
+				return 'UPDATE-FORM ERROR!';
+			}
+		}
+	) -> convert('ID', function ($ID) { return (int) $ID; });
+
+
+
+	$app -> get('/test/doctrine/delete/{ID}', function ($ID, Request $request) use ($app)
+		{
+			if($ID != '')
+			{
+				$app['db'] -> delete(
+					'doctrinetest',
+					array
+					(
+						'id' => $ID
+					)
+				);
+
+			    $subRequest = Request::create('/test/doctrine', 'GET');
+			    return $app -> handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+			}
+			else
+			{
+				return 'DELETE ERROR';
+			}
+		}
+	) -> convert('ID', function ($ID) { return (int) $ID; });
 
 
 

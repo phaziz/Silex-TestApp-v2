@@ -20,7 +20,7 @@
         </p>
         <ul>
             {% for TEST_DATA in TEST_DATA %}
-                <li>{{ TEST_DATA.id|e }} : {{ TEST_DATA.name|e }} : {{ TEST_DATA.val|e }}</li>
+                <li>{{ TEST_DATA.id|e }} : {{ TEST_DATA.name|e }} : {{ TEST_DATA.val|e }} | <a href="{{ _BASE_URL }}test/doctrine/delete/{{ TEST_DATA.id|e }}">delete</a> | <a href="{{ _BASE_URL }}test/doctrine/update/{{ TEST_DATA.id|e }}">update</a></li>
             {% endfor %}
         </ul>
     </body>

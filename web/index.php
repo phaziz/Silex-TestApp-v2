@@ -22,24 +22,6 @@
 	 * */
 	$app -> register(new Silex\Provider\UrlGeneratorServiceProvider());
 
-	$app -> register(new Silex\Provider\FormServiceProvider(),
-		array
-		(
-	    	'form.registry' => $app -> share(function() use ($app)
-	    		{
-	        		$resolvedTypeFactory = new Symfony\Component\Form\ResolvedFormTypeFactory();
-	        		return new Symfony\Component\Form\FormRegistry($app['form.extensions'], $resolvedTypeFactory);
-	    		}
-			),
-	    	'form.factory' => $app->share(function() use ($app)
-	    		{
-	        		$resolvedTypeFactory = new Symfony\Component\Form\ResolvedFormTypeFactory();
-	        		return new Symfony\Component\Form\FormFactory($app['form.registry'], $resolvedTypeFactory);
-	    		}
-			)
-		)
-	);
-
 	$app -> register(new Silex\Provider\DoctrineServiceProvider(),
         array
             (

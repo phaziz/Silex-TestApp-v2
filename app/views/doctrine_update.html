@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{{ HTML_TITLE }}</title>
+    </head>
+    <body> 
+        <ul>
+            <li><a href="{{ _BASE_URL }}">HOMEPAGE</a></li>
+            <li><a href="{{ _BASE_URL }}test/monolog">MONOLOG TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/httpcache">HTTP CACHE TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/doctrine">DOCTRINE TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/swiftmailer">SWIFTMAILER TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/redirect-1">REDIRECT TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/forwarding">FORWARD TEST</a></li>
+            <li><a href="{{ _BASE_URL }}test/forms">FORMS TEST</a></li>
+        </ul>
+        <br><br>
+        <p>
+            DOCTRINE-Update working?
+        </p>
+        <br><br>
+        <form action="{{ FORM_ACTION }}" method="{{ FORM_METHOD }}" enctype="{{ FORM_ENCTYPE }}">
+            <label>CSRF Token: </label>
+            <br>
+            <input readonly="readonly" type="text" name="csrf_token" id="csrf_token" value="{{ FORM_CSRF_TOKEN }}" size="100">
+            <br>
+            <label>Update ID: </label>
+            <br>
+            <input readonly="readonly" type="text" name="id" id="id" value="{{ UPDATE_DATA_ID|e }}" size="100">
+            <br>
+            <label>Name: </label>
+            <br>
+            <input type="text" name="name" id="name" value="{{ UPDATE_DATA_NAME|e }}" size="100">
+            <br>
+            <label>Val: </label>
+            <br>
+            <input type="text" name="val" id="val" value="{{ UPDATE_DATA_VAL|e }}" size="100">
+            <br><br>
+            <input type="submit" name="submit" value="update">
+        </form>
+    </body>
+</html>
